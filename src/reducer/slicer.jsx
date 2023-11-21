@@ -9,7 +9,7 @@ export const tasksSlice = createSlice({
       state.push(action.payload);
     },
     deleteTask: (state, action) => {
-      return state.filter(task => task.id !== action.payload);
+      state.splice(action.payload,1);
     },
     updateTask: (state, action) => {
       return state.map(task =>

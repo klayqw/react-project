@@ -18,6 +18,7 @@ from './root';
 import Task,{
   loader as taskLoader,
 } from './components/Task';
+import { action as taskDestroy } from './components/destroy';
 import ErrorPage from './components/error-page';
 import { Children } from 'react';
 
@@ -33,7 +34,11 @@ const router = createBrowserRouter([
       id:"taskinfo",
       path: "tasks/:taskid",
       loader:taskLoader,
-      element: <Task />,
+      element: <Task/>,
+    },
+    {
+      path: "tasks/:taskid/destroy",
+      action: taskDestroy,
     },
   ],
 }

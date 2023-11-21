@@ -1,3 +1,4 @@
+import { deleteTask } from "../reducer/slicer";
 import store from "../reducer/store";
 import {useLoaderData,Form, useRouteLoaderData } from "react-router-dom";
 
@@ -7,6 +8,8 @@ export async function loader({params}){
   console.log(element);
   return {element};
 }
+
+
 
 function Task() {
     const {element} = useRouteLoaderData("taskinfo");
@@ -34,7 +37,7 @@ function Task() {
             <button type="submit">Edit</button>
           </Form>
           <Form
-            method="post"
+            method="delete"
             action="destroy"
             onSubmit={(event) => {
               if (
