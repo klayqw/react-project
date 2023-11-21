@@ -1,18 +1,32 @@
-import { Form } from "react-router-dom";
-import { useSelector } from "react-redux";
+import store from "../reducer/store";
+import {useLoaderData,Form, useRouteLoaderData } from "react-router-dom";
 
-function Task({taskData}) {
-    const taskdata = taskData;
+export async function loader({params}){
+  const tasks = store.getState();
+  const element = tasks.tasks.find(e => e.id === params.taskid);
+  console.log(element);
+  return {element};
+}
+
+function Task() {
+    const {element} = useRouteLoaderData("taskinfo");
+    
     return (
 
         <div id="task">
         <div>
         <h1>
-            {taskdata.name}
+            {element.name}
         </h1>
 
         <p>         
-            {taskdata.content}
+            {element.content}
+        </p>
+        <p>         
+            {element.isDone}
+        </p>
+        <p>         
+            {element.id ? "not complited" : "complited"}
         </p>
 
         <div>

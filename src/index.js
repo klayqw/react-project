@@ -14,8 +14,11 @@ import Root,{
   action as rootAction
 }
 from './root';
+
+import Task,{
+  loader as taskLoader,
+} from './components/Task';
 import ErrorPage from './components/error-page';
-import Task from './components/Task';
 import { Children } from 'react';
 
 const router = createBrowserRouter([
@@ -27,7 +30,9 @@ const router = createBrowserRouter([
     action:rootAction,
     children:[
     {
+      id:"taskinfo",
       path: "tasks/:taskid",
+      loader:taskLoader,
       element: <Task />,
     },
   ],
