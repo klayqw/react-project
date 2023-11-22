@@ -12,8 +12,7 @@ export async function loader({params}){
 
 
 function Task() {
-    const {element} = useRouteLoaderData("taskinfo");
-    
+    const {element} = useRouteLoaderData("taskinfo");  
     return (
 
         <div id="task">
@@ -21,17 +20,15 @@ function Task() {
         <h1>
             {element.name}
         </h1>
-
         <p>         
             {element.content}
+        </p>        
+        <p>         
+            {element.isDone ? "complited" : "not complited"}
         </p>
         <p>         
-            {element.isDone}
+            {element.id}
         </p>
-        <p>         
-            {element.id ? "not complited" : "complited"}
-        </p>
-
         <div>
           <Form action="edit">
             <button type="submit">Edit</button>

@@ -15,6 +15,10 @@ import Root,{
 }
 from './root';
 
+import Edit,{
+  action as editAction,
+} from './components/edit';
+
 import Task,{
   loader as taskLoader,
 } from './components/Task';
@@ -39,6 +43,13 @@ const router = createBrowserRouter([
     {
       path: "tasks/:taskid/destroy",
       action: taskDestroy,
+    },
+    {
+      id:"taskedit",
+      path: "tasks/:taskid/edit",
+      element: <Edit/>,
+      loader: taskLoader,
+      action: editAction,
     },
   ],
 }
