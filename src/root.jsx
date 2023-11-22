@@ -2,7 +2,7 @@ import { Outlet, useLoaderData,Form } from "react-router-dom";
 import { useSelector,useDispatch} from 'react-redux';
 import store from "./reducer/store";
 import { Link } from "react-router-dom";
-import { addTask } from "./reducer/slicer";
+import { addTask, updateTask,deleteTask } from "./reducer/slicer";
 
 export async function loader(){
   const tasks = store.getState();
@@ -20,6 +20,14 @@ export async function action() {
 }
 
 export default function Root() {
+    const handleCheckboxChange = (task, isDone) => {
+      store.dispatch(updateTask({
+        id:task.id,
+        name:task.name,
+        content:task.content,
+        isDone: isDone,
+      }))
+    }
     const {tasks} = useLoaderData();
     return (
       <>
@@ -51,8 +59,43 @@ export default function Root() {
                         {task.name}
                       </>                                  
                   </Link>
+                  <div>
+          <Form action="edit">
+          <Link to={`tasks/${task.id}/edit`}>                   
+              <button type="submit">Edit</button>                        
+          </Link>
+          </Form>
+           
+          <Form
+            method="delete"
+            onSubmit={(event) => {
+              if (
+                !window.confirm(
+                  "Please confirm you want to delete this record."
+                )
+              ) {
+                event.preventDefault();
+              }else{
+                  store.dispatch(deleteTask(task.id));
+              }
+            }}
+          >        
+            <button type="submit">Delete</button>                 
+          </Form>
+        
+          <label>
+          
+        <span>is done</span>
+          <input
+            type="checkbox"
+            name="isdone"            
+            defaultChecked={task.isDone}
+            onChange={(e) => handleCheckboxChange(task,e.target.checked)}
+          />
+      </label>
+        </div>
                 </li>
-              ))}
+              ))}             
             </ul>
           ) : (
             <p>
