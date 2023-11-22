@@ -3,6 +3,7 @@ import { useSelector,useDispatch} from 'react-redux';
 import store from "./reducer/store";
 import { Link } from "react-router-dom";
 import { addTask, updateTask,deleteTask } from "./reducer/slicer";
+import { useState } from "react";
 
 export async function loader(){
   const tasks = store.getState();
@@ -28,7 +29,22 @@ export default function Root() {
         isDone: isDone,
       }))
     }
+
+    const handleFilterChange = (e) => {
+      setFilter(e.target.value);
+    }
+   
+    const [filter, setFilter] = useState('all');
     const {tasks} = useLoaderData();
+
+    const filteredTasks = tasks.filter((task) => {
+      if (filter === 'all') return true;
+      if (filter === 'non_completed') return task.isDone === false;
+      if (filter === 'completed') return task.isDone === true;
+    });
+
+    console.log(filteredTasks);
+
     return (
       <>
       
@@ -48,11 +64,19 @@ export default function Root() {
             <Form method="post">
               <button type="submit">New</button>
             </Form>
+             <label>
+            <span>Filter:</span>
+            <select id="filter"  onChange={handleFilterChange}>
+              <option value="all">All</option>
+              <option value="non_completed">Non Completed</option>
+              <option value="completed">Completed</option>
+            </select>
+          </label>
           </div>   
           <nav>
           {tasks.length ? (
             <ul>
-              {tasks.map((task) => (
+              {filteredTasks.map((task) => (
                 <li key={task.id}>
                   <Link to={`tasks/${task.id}`}>                   
                       <>
