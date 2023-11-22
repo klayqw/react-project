@@ -11,6 +11,7 @@ export const tasksSlice = createSlice({
     },
     deleteTask: (state, action) => {
       state.splice(action.payload,1);
+      console.log(action);
       localStorage.setItem('tasks', JSON.stringify(state));
     },
     updateTask: (state, action) => {

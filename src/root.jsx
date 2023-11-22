@@ -4,6 +4,7 @@ import store from "./reducer/store";
 import { Link } from "react-router-dom";
 import { addTask, updateTask,deleteTask } from "./reducer/slicer";
 import { useState } from "react";
+import { redirect } from "react-router-dom";
 
 export async function loader(){
   const tasks = store.getState();
@@ -42,7 +43,7 @@ export default function Root() {
       if (filter === 'non_completed') return task.isDone === false;
       if (filter === 'completed') return task.isDone === true;
     });
-
+    console.log(tasks);
     console.log(filteredTasks);
 
     return (
@@ -90,7 +91,7 @@ export default function Root() {
           </Link>
           </Form>
            
-          <Form
+          <form
             method="delete"
             onSubmit={(event) => {
               if (
@@ -100,12 +101,16 @@ export default function Root() {
               ) {
                 event.preventDefault();
               }else{
-                  store.dispatch(deleteTask(task.id));
+                console.log(1);
+                  const index = tasks.findIndex(e => e.id === task.id);
+                  console.log(index);
+                  store.dispatch(deleteTask(index));
+                  return redirect("/");
               }
             }}
           >        
             <button type="submit">Delete</button>                 
-          </Form>
+          </form>
         
           <label>
           
